@@ -42,6 +42,22 @@
 				</form>
 			</div>
 		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading"><i class="fa fa-comments fa-fw"></i>Reply</div>
+			<div class="panel-body">
+				<ul class="chat">
+					<li class="left clearfix" data-rno="12">
+						<div>
+							<div class="header">
+								<strong class="primary-font">user00</strong>
+								<small class="pull-right text-muted">2021-05-20 10:36</small>
+							</div>
+							<p>Good job</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</div>
 </div>
 <jsp:include page="../includes/footer.jsp"></jsp:include>
@@ -59,8 +75,31 @@
 		});
 		
 		//reply module
-		console.log(replyService);
-		var bnoValue='<c:out value="${board.bno}"/>';
+		 console.log(replyService);
+	     var bnoValue='<c:out value="${board.bno}"/>';
+	     
+	     //댓글 이벤트 처리
+	     var replyUL = $(".chat"); //showList(페이지번호)는 해당 게시판의 댓글을 가져온 후<li>태그를 만들어서 화면에 보여준다.
+	     
+	     showList(1);
+	     function showList(page){
+	        replyService.getList({bno:bnoValue,page : page || 1}, function(list){
+	           var str = "";
+	           if(list == null || list.length == 0){
+	               replyUL.html("");               
+	               return;
+	            }
+	            for(var i =0, len = list.length || 0; i<len; i++){
+	               str += "<li class  = 'left clearfix' data-rno = '"+list[i].rno+"'>";
+	               str += "<div><div class = 'header'><strong class = 'primary-font'>"+list[i].replyer+"</strong>";
+	               str += "<small class = 'pull-right text-muted'>"+replyService.displayTime(list[i].replyDate)+"</small></div>";
+	               str += "<p>"+list[i].reply+"</p></div></li>";
+	            }
+	            replyUL.html(str);
+	         }); // end function call
+	      } // end showList
+
+		
 		/* replyService.add( //객체에 있는 메소드 호출 ★☆★☆★☆지형언니 천재★☆★☆★☆
 			{reply: "JS TEST", replyer:"js tester", bno: bnoValue}
 			,function(result){
@@ -92,8 +131,8 @@
 			alert("수정 완료");
 		}); */
 		
-		replyService.get(10, function(data){
+		/* replyService.get(10, function(data){
 			console.log(data);
-		})
+		}) */
 	});
 </script>
