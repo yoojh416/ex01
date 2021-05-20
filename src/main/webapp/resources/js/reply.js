@@ -52,11 +52,45 @@ var replyService=(function(){
 					error(er);
 				}
 			}
-		})
+		});
+	}
+	
+	function update(reply, callback, error){
+		$.ajax({
+			type: 'put',
+			url:'/replies/'+reply.rno,
+			data: JSON.stringify(reply),
+			contentType: 'application/json;charset=uft-8',
+			success: function(result, status, xhr){
+				if(callback){
+					callback(result);
+				}
+			},
+			error: function(xhr, status, er){
+				if(error){
+					error(er);
+				}
+			}
+		});	
+	}
+	
+	function get(rno, callback, error){
+		$.get("/replies/"+rno+".json",
+		function(result){
+			if(callback){
+				callback(result);
+			}
+		}).fail(function(xhr, status, err){
+			if(error){
+				error();
+			}
+		});
 	}
    return {
 	add:add
 	, getList:getList
 	, remove:remove
+	, update:update
+	, get:get
 	}; //모듈 패키지 내보내는 역할
 })();
