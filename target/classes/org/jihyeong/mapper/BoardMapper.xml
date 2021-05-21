@@ -46,11 +46,11 @@
 	</sql>
 	<select id="getListWithPaging" resultType="org.jihyeong.domain.BoardVO">
 		<![CDATA[
-		select*
+		select *
 		from
 		(
 		select/* +INDEX_DESC(tbl_board pk_board) */
-		rownum rn, bno, title, content, writer, regdate, updateDate
+		rownum rn, bno, title, content, writer, regdate, updateDate, replyCnt
 		from
 			tbl_board
 		where 
@@ -69,4 +69,9 @@
 		<include refid="criteria"></include>
 		bno>0
 	</select>
+	<update id="updateReplyCnt">
+		update tbl_board
+		set replycnt=replycnt+#{amount}
+		where bno=#{bno}
+	</update>
 </mapper>

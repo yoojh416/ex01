@@ -29,7 +29,11 @@
 						<c:forEach var="list" items="${list}">
 							<tr>
 								<td>${list.bno}</td>
-								<td><a class="move" href='<c:out value="${list.bno}"/>'><c:out value="${list.title}"/></a></td>
+								<td><a class="move" href='<c:out value="${list.bno}"/>'>
+									<c:out value="${list.title}"/>
+									<b>[<c:out value="${list.replyCnt}"/>]</b>
+									</a>
+								</td>
 								<td>${list.writer}</td>
 								<td>${list.regdate}</td>
 								<td>${list.updateDate}</td>

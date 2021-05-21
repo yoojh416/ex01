@@ -5,8 +5,10 @@ import java.util.List;
 import org.jihyeong.domain.Criteria;
 import org.jihyeong.domain.ReplyPageDTO;
 import org.jihyeong.domain.ReplyVO;
+import org.jihyeong.mapper.BoardMapper;
 import org.jihyeong.mapper.ReplyMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -16,10 +18,13 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 public class ReplyServiceImpl implements ReplyService{
 	private ReplyMapper mapper;
+	private BoardMapper boardMapper;
 	
+	@Transactional
 	@Override
 	public int register(ReplyVO vo) {
 		log.info("register......."+vo);
+		boardMapper.updateReplyCnt(vo.getBno(),1);
 		return mapper.insert(vo);
 	}
 	
@@ -35,9 +40,12 @@ public class ReplyServiceImpl implements ReplyService{
 		return mapper.update(vo);
 	}
 	
+	@Transactional
 	@Override
 	public int remove(Long rno) {
 		log.info("remove......."+rno);
+		ReplyVO vo=mapper.read(rno);
+		boardMapper.updateReplyCnt(vo.getBno(),-1);
 		return mapper.delete(rno);
 	}
 	
