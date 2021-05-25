@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.jihyeong.domain.BoardVO;
 import org.jihyeong.domain.Criteria;
+import org.jihyeong.mapper.BoardAttachMapper;
 import org.jihyeong.mapper.BoardMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -15,6 +17,7 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 public class BoardServiceImpl implements BoardService{
 	private BoardMapper mapper;
+	private BoardAttachMapper attachMapper;
 	
 	@Override
 	public List<BoardVO> getList(){
@@ -27,10 +30,18 @@ public class BoardServiceImpl implements BoardService{
 		return mapper.getListWithPaging(cri);
 	}
 	
+	@Transactional
 	@Override
 	public void register(BoardVO board) {
 		log.info("register...."+board.getBno());
 		mapper.insertSelectKey(board);
+		if(board.getAttachList()==null || board.getAttachList().size()<=0) {
+			return;	
+		}
+		board.getAttachList().forEach(attach->{
+			attach.setBno(board.getBno());
+			attachMapper.insert(attach);
+		});
 	}
 	
 	@Override

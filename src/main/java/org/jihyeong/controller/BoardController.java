@@ -41,6 +41,9 @@ public class BoardController {
 	@PostMapping("/register")
 	public String register(BoardVO board, RedirectAttributes rttr) {
 		log.info("register: "+board);
+		if(board.getAttachList()!=null) {
+			board.getAttachList().forEach(attach->log.info(attach));
+		}
 		service.register(board);
 		rttr.addFlashAttribute("result",board.getBno()); //addFlashAttribute()를 이용해서 단 한번만 전송되는 데이터 저장 후 전송
 		return "redirect:/board/list";

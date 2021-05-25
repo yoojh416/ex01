@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.jihyeong.mapper.BoardAttachMapper">
+	<insert id="insert">
+		insert into tbl_attach(uuid, uploadPath, fileName, fileType, bno)
+		values(#{uuid}, #{uploadPath}, #{fileName}, #{fileType}, #{bno}) 
+		<!-- 알아서 매핑할 수 있도록 기능함(getter, setter call 할 필요 없음) =>{}안은 boardVO에 작성했던 spelling과 똑같이 작성해야 함 -->
+	</insert>
+	<delete id="delete">
+		delete from tbl_attach where uuid=#{uuid}
+	</delete>
+	<select id="findByBno" resultType="org.jihyeong.domain.BoardAttachVO">
+		select * from tbl_attach where bno=#{bno}
+	</select>
+</mapper>
