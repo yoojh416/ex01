@@ -2,6 +2,7 @@ package org.jihyeong.service;
 
 import java.util.List;
 
+import org.jihyeong.domain.BoardAttachVO;
 import org.jihyeong.domain.BoardVO;
 import org.jihyeong.domain.Criteria;
 import org.jihyeong.mapper.BoardAttachMapper;
@@ -45,6 +46,12 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	@Override
+	public List<BoardAttachVO> getAttachList(Long bno){
+		log.info("get Attach list by bno"+bno);
+		return attachMapper.findByBno(bno);
+	}
+	
+	@Override
 	public BoardVO get(Long bno) {
 		log.info("get....."+bno);
 		return mapper.read(bno);
@@ -67,4 +74,6 @@ public class BoardServiceImpl implements BoardService{
 		log.info("get total count");
 		return mapper.getTotalCount(cri);
 	}
+	
+	
 }

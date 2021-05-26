@@ -97,6 +97,11 @@
 <script type="text/javascript" src="/resources/js/reply.js"></script>
 <script>
 	$(document).ready(function(){
+		var bno='<c:out value="${board.bno}"/>';
+		$.getJSON("/board/getAttachList",{bno:bno}, function(arr){
+			console.log(arr);
+		});//end getJSON
+		
 		var operForm=$("#operForm");
 		$('button[data-oper="modify"]').on("click",function(e){
 			operForm.attr("action","/board/modify").submit();

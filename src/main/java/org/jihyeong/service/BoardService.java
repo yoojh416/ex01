@@ -2,6 +2,7 @@ package org.jihyeong.service;
 
 import java.util.List;
 
+import org.jihyeong.domain.BoardAttachVO;
 import org.jihyeong.domain.BoardVO;
 import org.jihyeong.domain.Criteria;
 
@@ -13,5 +14,6 @@ public interface BoardService {
 	public boolean modify(BoardVO board);
 	public boolean remove(Long bno);
 	public int getTotal(Criteria cri);
+	List<BoardAttachVO> getAttachList(Long bno);
 	
 }
